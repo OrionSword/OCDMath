@@ -11,19 +11,19 @@ namespace OCDMath
         //Pi
         public static decimal Pi()
         {
-            return decimal.Parse("3.141592653589793238462643383279");
+            return 3.141592653589793238462643383279m;
         }
 
         //Phi (the golden ratio)
         public static decimal Phi()
         {
-            return decimal.Parse("1.618033988749894848204586834365");
+            return 1.618033988749894848204586834365m;
         }
 
         //Euler’s Number(e)
         public static decimal e()
         {
-            return decimal.Parse("2.718281828459045235360287471352");
+            return 2.718281828459045235360287471352m;
         }
 
         //Exponent
