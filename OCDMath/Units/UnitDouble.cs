@@ -9,8 +9,6 @@ namespace OCDMath.Units
     public struct UnitDouble
     {
         //CONSTANTS
-        private const double equals_tolerance = 1e-9;
-
         public const string TIME_SUFFIX = "s";
         public const string LENGTH_SUFFIX = "m";
         public const string MASS_SUFFIX = "kg";
@@ -150,18 +148,6 @@ namespace OCDMath.Units
             if (HasSameUnits(_b))
             {
                 return this.Value == _b.Value;
-            }
-            else
-            {
-                throw new UnitDimensionException("The two units being compared for equality do not have the same dimensions.");
-            }
-        }
-
-        public bool Equals(UnitDouble _a, double _tolerance)
-        {
-            if (HasSameUnits(_a))
-            {
-                return System.Math.Abs(this.Value - _a.Value) <= _tolerance;
             }
             else
             {
@@ -317,12 +303,12 @@ namespace OCDMath.Units
         //==
         public static bool operator ==(UnitDouble _a, UnitDouble _b)
         {
-            return _a.Equals(_b, equals_tolerance);
+            return _a.Equals(_b);
         }
 
         public static bool operator !=(UnitDouble _a, UnitDouble _b)
         {
-            return !_a.Equals(_b, equals_tolerance);
+            return !_a.Equals(_b);
         }
 
         // >
@@ -441,16 +427,6 @@ namespace OCDMath.Units
 
 
         //UTILITIES
-        private static int ShiftAndWrap(int value, int positions)  //this method was copied from Microsoft's article on GetHashCode:  https://docs.microsoft.com/en-us/dotnet/api/system.object.gethashcode?view=netcore-3.1
-        {
-            positions = positions & 0x1F;
-
-            // Save the existing bit pattern, but interpret it as an unsigned integer.
-            uint number = BitConverter.ToUInt32(BitConverter.GetBytes(value), 0);
-            // Preserve the bits to be discarded.
-            uint wrapped = number >> (32 - positions);
-            // Shift and wrap the discarded bits.
-            return BitConverter.ToInt32(BitConverter.GetBytes((number << positions) | wrapped), 0);
-        }
+        
     }
 }
