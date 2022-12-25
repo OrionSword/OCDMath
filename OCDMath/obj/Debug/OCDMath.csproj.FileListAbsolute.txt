@@ -1,0 +1,6 @@
+C:\Users\Admin\Documents\Software\Projects\OCDMath\OCDMath\obj\Debug\OCDMath.csprojAssemblyReference.cache
+C:\Users\Admin\Documents\Software\Projects\OCDMath\OCDMath\obj\Debug\OCDMath.csproj.CoreCompileInputs.cache
+C:\Users\Admin\Documents\Software\Projects\OCDMath\OCDMath\bin\Debug\OCDMath.dll
+C:\Users\Admin\Documents\Software\Projects\OCDMath\OCDMath\bin\Debug\OCDMath.pdb
+C:\Users\Admin\Documents\Software\Projects\OCDMath\OCDMath\obj\Debug\OCDMath.dll
+C:\Users\Admin\Documents\Software\Projects\OCDMath\OCDMath\obj\Debug\OCDMath.pdb

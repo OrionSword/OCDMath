@@ -49,5 +49,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OCDMath\OCDMath.csproj">
+      <Project>{d8156205-f534-4c93-b9c6-db324a8ef6ff}</Project>
+      <Name>OCDMath</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

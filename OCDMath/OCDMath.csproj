@@ -41,12 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Decimal.cs" />
-    <Compile Include="Fixed.cs" />
     <Compile Include="Math.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DoubleQuaternion.cs" />
-    <Compile Include="DoubleVector3.cs" />
     <Compile Include="Units\UnitDouble.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

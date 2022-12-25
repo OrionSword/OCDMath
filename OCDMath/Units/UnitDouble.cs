@@ -22,15 +22,17 @@ namespace OCDMath.Units
         public double Value { get; private set; }
         public double InBaseUnits { get { return Value; } }
 
-        public string DefaultUnitSuffix { get { return
-                    ((TimeDimension != 0) ?       TIME_SUFFIX        + "^" + TimeDimension.ToString()        : "") +
-                    ((TimeDimension != 0) ? "*" + LENGTH_SUFFIX      + "^" + LengthDimension.ToString()      : "") +
-                    ((TimeDimension != 0) ? "*" + MASS_SUFFIX        + "^" + MassDimension.ToString()        : "") +
-                    ((TimeDimension != 0) ? "*" + CURRENT_SUFFIX     + "^" + CurrentDimension.ToString()     : "") +
-                    ((TimeDimension != 0) ? "*" + TEMPERATURE_SUFFIX + "^" + TemperatureDimension.ToString() : "") +
-                    ((TimeDimension != 0) ? "*" + MOLE_SUFFIX        + "^" + MoleDimension.ToString()        : "") +
-                    ((TimeDimension != 0) ? "*" + INTENSITY_SUFFIX   + "^" + IntensityDimension.ToString()   : "")
-                    ; } }
+        public string DefaultUnitSuffix { get {
+                string value =
+                    ((TimeDimension != 0)        ?       TIME_SUFFIX        + "^" + TimeDimension.ToString()        : "") +
+                    ((LengthDimension != 0)      ? "*" + LENGTH_SUFFIX      + "^" + LengthDimension.ToString()      : "") +
+                    ((MassDimension != 0)        ? "*" + MASS_SUFFIX        + "^" + MassDimension.ToString()        : "") +
+                    ((CurrentDimension != 0)     ? "*" + CURRENT_SUFFIX     + "^" + CurrentDimension.ToString()     : "") +
+                    ((TemperatureDimension != 0) ? "*" + TEMPERATURE_SUFFIX + "^" + TemperatureDimension.ToString() : "") +
+                    ((MoleDimension != 0)        ? "*" + MOLE_SUFFIX        + "^" + MoleDimension.ToString()        : "") +
+                    ((IntensityDimension != 0)   ? "*" + INTENSITY_SUFFIX   + "^" + IntensityDimension.ToString()   : "");
+                return (value.Substring(0, 1) == "*") ? value.Substring(1) : value;
+            } }
 
         public int TimeDimension        { get; private set; }
         public int LengthDimension      { get; private set; }
@@ -90,6 +92,11 @@ namespace OCDMath.Units
             return IsUnitless(this);
         }
 
+        public override string ToString()
+        {
+            return Value.ToString() + DefaultUnitSuffix;
+        }
+
             //the following was based on the example here:  https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1036
         public int CompareTo(object obj)
         {
@@ -102,15 +109,13 @@ namespace OCDMath.Units
                 return CompareTo((UnitDouble)obj);
             }
         }
-
         public int CompareTo(UnitDouble other)
         {
-            if (!HasSameUnits(other)) throw new UnitDimensionException("Can't compare two UnitDoubles that have different dimensions.");
+            if (!HasSameUnits(other)) throw new UnitDimensionException("The two units being compared do not have the same dimensions.");
             if (Value == other.Value) return 0;
             if (Value > other.Value) return 1;
             return -1;
         }
-
         public int CompareTo(double other)
         {
             if (!this.IsUnitless()) throw new UnitDimensionException("Can't compare a Double and a UnitDouble with dimensions.");
@@ -127,7 +132,6 @@ namespace OCDMath.Units
             }
             return _a.CompareTo(_b);
         }
-
         public static int Compare(double _a, UnitDouble _b)
         {
             if (!_b.IsUnitless()) throw new UnitDimensionException("Can't compare a Double and a UnitDouble with dimensions.");
@@ -135,7 +139,6 @@ namespace OCDMath.Units
             if (_a > _b.Value) return 1;
             return -1;
         }
-
         public static int Compare(UnitDouble _a, double _b)
         {
             return _a.CompareTo(_b);
@@ -152,6 +155,40 @@ namespace OCDMath.Units
             else
             {
                 throw new UnitDimensionException("The two units being compared for equality do not have the same dimensions.");
+            }
+        }
+
+        public bool Equal(UnitDouble _a, UnitDouble _b)
+        {
+            if (_a.HasSameUnits(_b))
+            {
+                return _a.Value == _b.Value;
+            }
+            else
+            {
+                throw new UnitDimensionException("The two units being compared do not have the same dimensions.");
+            }
+        }
+        public bool Equal(double _a, UnitDouble _b)
+        {
+            if (_b.IsUnitless())
+            {
+                return _a == _b.Value;
+            }
+            else
+            {
+                throw new UnitDimensionException("Can't compare a Double and a UnitDouble with dimensions.");
+            }
+        }
+        public bool Equal(UnitDouble _a, double _b)
+        {
+            if (_a.IsUnitless())
+            {
+                return _a.Value == _b;
+            }
+            else
+            {
+                throw new UnitDimensionException("Can't compare a Double and a UnitDouble with dimensions.");
             }
         }
 
@@ -300,19 +337,44 @@ namespace OCDMath.Units
             return new UnitDouble(_a.Value / _b, _a);
         }
 
-        //==
+        // ==
         public static bool operator ==(UnitDouble _a, UnitDouble _b)
         {
-            return _a.Equals(_b);
+            return Equals(_a, _b);
+        }
+        public static bool operator ==(double _a, UnitDouble _b)
+        {
+            return Equals(_a, _b);
+        }
+        public static bool operator ==(UnitDouble _a, double _b)
+        {
+            return Equals(_a, _b);
         }
 
+        // !=
         public static bool operator !=(UnitDouble _a, UnitDouble _b)
         {
-            return !_a.Equals(_b);
+            return !Equals(_a, _b);
+        }
+        public static bool operator !=(double _a, UnitDouble _b)
+        {
+            return !Equals(_a, _b);
+        }
+        public static bool operator !=(UnitDouble _a, double _b)
+        {
+            return !Equals(_a, _b);
         }
 
         // >
         public static bool operator >(UnitDouble _a, UnitDouble _b)
+        {
+            return (Compare(_a, _b) > 0);
+        }
+        public static bool operator >(double _a, UnitDouble _b)
+        {
+            return (Compare(_a, _b) > 0);
+        }
+        public static bool operator >(UnitDouble _a, double _b)
         {
             return (Compare(_a, _b) > 0);
         }
@@ -322,15 +384,39 @@ namespace OCDMath.Units
         {
             return (Compare(_a, _b) >= 0);
         }
+        public static bool operator >=(double _a, UnitDouble _b)
+        {
+            return (Compare(_a, _b) >= 0);
+        }
+        public static bool operator >=(UnitDouble _a, double _b)
+        {
+            return (Compare(_a, _b) >= 0);
+        }
 
         // <
         public static bool operator <(UnitDouble _a, UnitDouble _b)
         {
             return (Compare(_a, _b) < 0);
         }
+        public static bool operator <(double _a, UnitDouble _b)
+        {
+            return (Compare(_a, _b) < 0);
+        }
+        public static bool operator <(UnitDouble _a, double _b)
+        {
+            return (Compare(_a, _b) < 0);
+        }
 
         // <=
         public static bool operator <=(UnitDouble _a, UnitDouble _b)
+        {
+            return (Compare(_a, _b) <= 0);
+        }
+        public static bool operator <=(double _a, UnitDouble _b)
+        {
+            return (Compare(_a, _b) <= 0);
+        }
+        public static bool operator <=(UnitDouble _a, double _b)
         {
             return (Compare(_a, _b) <= 0);
         }
@@ -345,6 +431,8 @@ namespace OCDMath.Units
 
         //time
         public static UnitDouble second = new UnitDouble(1.0, 1, 0, 0, 0, 0, 0, 0);
+        public static UnitDouble minute = new UnitDouble(1/60.0, 1, 0, 0, 0, 0, 0, 0);
+        public static UnitDouble hour   = new UnitDouble(1/3600.0, 1, 0, 0, 0, 0, 0, 0);
 
         //length
         public static UnitDouble meter = new UnitDouble(1.0, 0, 1, 0, 0, 0, 0, 0);
@@ -357,7 +445,7 @@ namespace OCDMath.Units
         public static UnitDouble amp = ampere;
 
         //temperature
-        public static UnitDouble deltakelvin = new UnitDouble(1.0, 0, 0, 0, 0, 1, 0, 0);
+        public static UnitDouble deltaKelvin = new UnitDouble(1.0, 0, 0, 0, 0, 1, 0, 0);
 
         //mole
         public static UnitDouble mole = new UnitDouble(1.0, 0, 0, 0, 0, 0, 1, 0);

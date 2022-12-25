@@ -14,7 +14,12 @@ namespace OCDMathTest
             UnitDouble a = 2.0 * UnitDouble.meter;
             UnitDouble b = 3.0 * UnitDouble.meter;
 
-            bool result = a >= b;
+            Console.WriteLine(a >= b);
+            Console.WriteLine((a + b).ToString());
+            Console.WriteLine((a * b).ToString());
+
+            Console.WriteLine("Press any key to exit...");
+            Console.ReadKey();
         }
     }
 }

@@ -1,0 +1,10 @@
+C:\Users\Admin\Documents\Software\Projects\OCDMath\OCDMathTest\bin\Debug\OCDMathTest.exe.config
+C:\Users\Admin\Documents\Software\Projects\OCDMath\OCDMathTest\bin\Debug\OCDMathTest.exe
+C:\Users\Admin\Documents\Software\Projects\OCDMath\OCDMathTest\bin\Debug\OCDMathTest.pdb
+C:\Users\Admin\Documents\Software\Projects\OCDMath\OCDMathTest\bin\Debug\OCDMath.dll
+C:\Users\Admin\Documents\Software\Projects\OCDMath\OCDMathTest\bin\Debug\OCDMath.pdb
+C:\Users\Admin\Documents\Software\Projects\OCDMath\OCDMathTest\obj\Debug\OCDMathTest.csprojAssemblyReference.cache
+C:\Users\Admin\Documents\Software\Projects\OCDMath\OCDMathTest\obj\Debug\OCDMathTest.csproj.CoreCompileInputs.cache
+C:\Users\Admin\Documents\Software\Projects\OCDMath\OCDMathTest\obj\Debug\OCDMathTest.csproj.CopyComplete
+C:\Users\Admin\Documents\Software\Projects\OCDMath\OCDMathTest\obj\Debug\OCDMathTest.exe
+C:\Users\Admin\Documents\Software\Projects\OCDMath\OCDMathTest\obj\Debug\OCDMathTest.pdb
