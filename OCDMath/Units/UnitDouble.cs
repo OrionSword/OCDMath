@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace OCDMath.Units
 {
-    public struct UnitDouble
+    public struct UnitDouble :
+        IComparable<UnitDouble>, IComparable<double>, IEquatable<UnitDouble>, IEquatable<double>
     {
         //CONSTANTS
         public const string TIME_SUFFIX = "s";
@@ -124,6 +125,74 @@ namespace OCDMath.Units
             return -1;
         }
 
+        public override bool Equals(object other)
+        {
+            return Equals((UnitDouble)other);
+        }
+        public bool Equals(UnitDouble other)
+        {
+            if (HasSameUnits(other))
+            {
+                return this.Value == other.Value;
+            }
+            else
+            {
+                throw new UnitDimensionException("The two units being compared for equality do not have the same dimensions.");
+            }
+        }
+        public bool Equals(double other)
+        {
+            if (IsUnitless())
+            {
+                return this.Value == other;
+            }
+            else
+            {
+                throw new UnitDimensionException("Can't compare a Double and a UnitDouble with dimensions.");
+            }
+        }
+
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode() ^ ((
+                this.TimeDimension        ^
+                this.LengthDimension      ^
+                this.MassDimension        ^
+                this.CurrentDimension     ^
+                this.TemperatureDimension ^
+                this.MoleDimension        ^
+                this.IntensityDimension
+                ) & 0xFF); //Overlay the 8 least-significant bits of an exclusive or of all 7 dimension integers
+        }
+
+
+        //STATIC METHODS
+        public static bool HasSameUnits(UnitDouble _a, UnitDouble _b)
+        {
+            return (
+                _a.TimeDimension == _b.TimeDimension &&
+                _a.LengthDimension == _b.LengthDimension &&
+                _a.MassDimension == _b.MassDimension &&
+                _a.CurrentDimension == _b.CurrentDimension &&
+                _a.TemperatureDimension == _b.TemperatureDimension &&
+                _a.MoleDimension == _b.MoleDimension &&
+                _a.IntensityDimension == _b.IntensityDimension
+                );
+        }
+
+        public static bool IsUnitless(UnitDouble _a)
+        {
+            return (
+                _a.TimeDimension == 0 &&
+                _a.LengthDimension == 0 &&
+                _a.MassDimension == 0 &&
+                _a.CurrentDimension == 0 &&
+                _a.TemperatureDimension == 0 &&
+                _a.MoleDimension == 0 &&
+                _a.IntensityDimension == 0
+                );
+        }
+
         public static int Compare(UnitDouble _a, UnitDouble _b)
         {
             if (object.ReferenceEquals(_a, _b))
@@ -144,21 +213,7 @@ namespace OCDMath.Units
             return _a.CompareTo(_b);
         }
 
-        public override bool Equals(object obj)
-        {
-            UnitDouble _b = (UnitDouble)obj;
-
-            if (HasSameUnits(_b))
-            {
-                return this.Value == _b.Value;
-            }
-            else
-            {
-                throw new UnitDimensionException("The two units being compared for equality do not have the same dimensions.");
-            }
-        }
-
-        public bool Equal(UnitDouble _a, UnitDouble _b)
+        public static bool Equal(UnitDouble _a, UnitDouble _b)
         {
             if (_a.HasSameUnits(_b))
             {
@@ -169,7 +224,7 @@ namespace OCDMath.Units
                 throw new UnitDimensionException("The two units being compared do not have the same dimensions.");
             }
         }
-        public bool Equal(double _a, UnitDouble _b)
+        public static bool Equal(double _a, UnitDouble _b)
         {
             if (_b.IsUnitless())
             {
@@ -180,7 +235,7 @@ namespace OCDMath.Units
                 throw new UnitDimensionException("Can't compare a Double and a UnitDouble with dimensions.");
             }
         }
-        public bool Equal(UnitDouble _a, double _b)
+        public static bool Equal(UnitDouble _a, double _b)
         {
             if (_a.IsUnitless())
             {
@@ -190,19 +245,6 @@ namespace OCDMath.Units
             {
                 throw new UnitDimensionException("Can't compare a Double and a UnitDouble with dimensions.");
             }
-        }
-
-        public override int GetHashCode()
-        {
-            return Value.GetHashCode() ^ ((
-                this.TimeDimension        ^
-                this.LengthDimension      ^
-                this.MassDimension        ^
-                this.CurrentDimension     ^
-                this.TemperatureDimension ^
-                this.MoleDimension        ^
-                this.IntensityDimension
-                ) & 0xFF); //Overlay the 8 least-significant bits of an exclusive or of all 7 dimension integers
         }
 
 
@@ -431,21 +473,40 @@ namespace OCDMath.Units
 
         //time
         public static UnitDouble second = new UnitDouble(1.0, 1, 0, 0, 0, 0, 0, 0);
+        public static UnitDouble millisecond = new UnitDouble(0.001, 1, 0, 0, 0, 0, 0, 0);
+        public static UnitDouble microsecond = new UnitDouble(0.000001, 1, 0, 0, 0, 0, 0, 0);
         public static UnitDouble minute = new UnitDouble(1/60.0, 1, 0, 0, 0, 0, 0, 0);
         public static UnitDouble hour   = new UnitDouble(1/3600.0, 1, 0, 0, 0, 0, 0, 0);
 
         //length
         public static UnitDouble meter = new UnitDouble(1.0, 0, 1, 0, 0, 0, 0, 0);
+        public static UnitDouble kilometer = new UnitDouble(1000.0, 0, 1, 0, 0, 0, 0, 0);
+        public static UnitDouble centimeter = new UnitDouble(0.01, 0, 1, 0, 0, 0, 0, 0);
+        public static UnitDouble millimeter = new UnitDouble(0.001, 0, 1, 0, 0, 0, 0, 0);
+        public static UnitDouble micrometer = new UnitDouble(0.000001, 0, 1, 0, 0, 0, 0, 0);
+        public static UnitDouble inch = new UnitDouble(0.0254, 0, 1, 0, 0, 0, 0, 0);
+        public static UnitDouble foot = new UnitDouble(0.3048, 0, 1, 0, 0, 0, 0, 0);
+        public static UnitDouble mile = new UnitDouble(1609.34, 0, 1, 0, 0, 0, 0, 0);
 
         //mass
         public static UnitDouble kilogram = new UnitDouble(1.0, 0, 0, 1, 0, 0, 0, 0);
+        public static UnitDouble gram = new UnitDouble(0.001, 0, 0, 1, 0, 0, 0, 0);
+        public static UnitDouble milligram = new UnitDouble(0.000001, 0, 0, 1, 0, 0, 0, 0);
+        public static UnitDouble tonne = new UnitDouble(1000.0, 0, 0, 1, 0, 0, 0, 0);
+        public static UnitDouble poundMass = new UnitDouble(0.453592, 0, 0, 1, 0, 0, 0, 0);
+        public static UnitDouble ounceMass = new UnitDouble(0.0283495, 0, 0, 1, 0, 0, 0, 0);
+        public static UnitDouble tonMass = new UnitDouble(907.1847, 0, 0, 1, 0, 0, 0, 0);
 
         //current
         public static UnitDouble ampere = new UnitDouble(1.0, 0, 0, 0, 1, 0, 0, 0);
         public static UnitDouble amp = ampere;
+        public static UnitDouble milliamp = new UnitDouble(0.001, 0, 0, 0, 1, 0, 0, 0);
 
         //temperature
         public static UnitDouble deltaKelvin = new UnitDouble(1.0, 0, 0, 0, 0, 1, 0, 0);
+        public static UnitDouble deltaCelsius = new UnitDouble(1.0, 0, 0, 0, 0, 1, 0, 0);
+        public static UnitDouble deltaFahrenheit = new UnitDouble(5.0/9.0, 0, 0, 0, 0, 1, 0, 0);
+        public static UnitDouble deltaRankine = new UnitDouble(5.0/9.0, 0, 0, 0, 0, 1, 0, 0);
 
         //mole
         public static UnitDouble mole = new UnitDouble(1.0, 0, 0, 0, 0, 0, 1, 0);
@@ -453,48 +514,96 @@ namespace OCDMath.Units
         //luminous intensity
         public static UnitDouble candela = new UnitDouble(1.0, 0, 0, 0, 0, 0, 0, 1);
 
+
         //DERIVED UNITS
+        //frequency
+        public static UnitDouble hertz = new UnitDouble(1.0, -1, 0, 0, 0, 0, 0, 0);
+        public static UnitDouble kilohertz = new UnitDouble(1000.0, -1, 0, 0, 0, 0, 0, 0);
+        public static UnitDouble megahertz = new UnitDouble(1000000.0, -1, 0, 0, 0, 0, 0, 0);
+        public static UnitDouble gigahertz = new UnitDouble(1000000000.0, -1, 0, 0, 0, 0, 0, 0);
+
         //force
+        public static UnitDouble newton = new UnitDouble(1.0, -2, 1, 1, 0, 0, 0, 0);
+        public static UnitDouble millinewton = new UnitDouble(0.001, -2, 1, 1, 0, 0, 0, 0);
+        public static UnitDouble kilonewton = new UnitDouble(1000.0, -2, 1, 1, 0, 0, 0, 0);
+        public static UnitDouble gramForce = new UnitDouble(0.00980665, -2, 1, 1, 0, 0, 0, 0);
+        public static UnitDouble kilogramForce = new UnitDouble(9.80665, -2, 1, 1, 0, 0, 0, 0);
+        public static UnitDouble tonneForce = new UnitDouble(9806.65, -2, 1, 1, 0, 0, 0, 0);
+        public static UnitDouble ounceForce = new UnitDouble(0.27801, -2, 1, 1, 0, 0, 0, 0);
+        public static UnitDouble poundForce = new UnitDouble(4.44822, -2, 1, 1, 0, 0, 0, 0);
+        public static UnitDouble tonForce = new UnitDouble(8896.443, -2, 1, 1, 0, 0, 0, 0);
+
+        //pressure & stress
+        public static UnitDouble pascal = new UnitDouble(1.0, -2, -1, 1, 0, 0, 0, 0);
+        public static UnitDouble kilopascal = new UnitDouble(1000.0, -2, -1, 1, 0, 0, 0, 0);
+        public static UnitDouble megapascal = new UnitDouble(1000000.0, -2, -1, 1, 0, 0, 0, 0);
+        public static UnitDouble gigapascal = new UnitDouble(1000000000.0, -2, -1, 1, 0, 0, 0, 0);
+        public static UnitDouble bar = new UnitDouble(100000.0, -2, -1, 1, 0, 0, 0, 0);
+        public static UnitDouble atmosphere = new UnitDouble(101325.0, -2, -1, 1, 0, 0, 0, 0);
+        public static UnitDouble poundPerSquareInch = new UnitDouble(6894.76, -2, -1, 1, 0, 0, 0, 0);
 
         //energy
+        public static UnitDouble joule = new UnitDouble(1.0, -2, 2, 1, 0, 0, 0, 0);
+        public static UnitDouble millijoule = new UnitDouble(0.001, -2, 2, 1, 0, 0, 0, 0);
+        public static UnitDouble kilojoule = new UnitDouble(1000.0, -2, 2, 1, 0, 0, 0, 0);
+        public static UnitDouble megajoule = new UnitDouble(1000000.0, -2, 2, 1, 0, 0, 0, 0);
+        public static UnitDouble gigajoule = new UnitDouble(1000000000.0, -2, 2, 1, 0, 0, 0, 0);
+        public static UnitDouble britishThermalUnit = new UnitDouble(1055.06, -2, 2, 1, 0, 0, 0, 0);
+
+        //power
+        public static UnitDouble watt = new UnitDouble(1.0, -3, 2, 1, 0, 0, 0, 0);
+        public static UnitDouble milliwatt = new UnitDouble(0.001, -3, 2, 1, 0, 0, 0, 0);
+        public static UnitDouble kilowatt = new UnitDouble(1000.0, -3, 2, 1, 0, 0, 0, 0);
+        public static UnitDouble megawatt = new UnitDouble(1000000.0, -3, 2, 1, 0, 0, 0, 0);
+        public static UnitDouble gigawatt = new UnitDouble(1000000000.0, -3, 2, 1, 0, 0, 0, 0);
+        public static UnitDouble horsepower = new UnitDouble(745.7, -3, 2, 1, 0, 0, 0, 0);
 
         //area
+        public static UnitDouble meterSquared = new UnitDouble(1.0, 0, 2, 0, 0, 0, 0, 0);
+        public static UnitDouble millimeterSquared = new UnitDouble(0.000001, 0, 2, 0, 0, 0, 0, 0);
+        public static UnitDouble centimeterSquared = new UnitDouble(0.0001, 0, 2, 0, 0, 0, 0, 0);
+        public static UnitDouble kilometerSquared = new UnitDouble(1000000.0, 0, 2, 0, 0, 0, 0, 0);
+        public static UnitDouble inchSquared = new UnitDouble(0.00064516, 0, 2, 0, 0, 0, 0, 0);
+        public static UnitDouble footSquared = new UnitDouble(0.092903, 0, 2, 0, 0, 0, 0, 0);
+        public static UnitDouble acre = new UnitDouble(4046.86, 0, 2, 0, 0, 0, 0, 0);
+        public static UnitDouble hectare = new UnitDouble(10000.0, 0, 2, 0, 0, 0, 0, 0);
+        public static UnitDouble mileSquared = new UnitDouble(258998.110336, 0, 2, 0, 0, 0, 0, 0);
 
         //volume
+        public static UnitDouble meterCubed = new UnitDouble(1.0, 0, 3, 0, 0, 0, 0, 0);
+        public static UnitDouble millimeterCubed = new UnitDouble(0.000000001, 0, 3, 0, 0, 0, 0, 0);
+        public static UnitDouble centimeterCubed = new UnitDouble(0.000001, 0, 3, 0, 0, 0, 0, 0);
+        public static UnitDouble kilometerCubed = new UnitDouble(1000000.0, 0, 3, 0, 0, 0, 0, 0);
+        public static UnitDouble liter = new UnitDouble(0.001, 0, 3, 0, 0, 0, 0, 0);
+        public static UnitDouble milliliter = new UnitDouble(0.000001, 0, 3, 0, 0, 0, 0, 0);
+        public static UnitDouble inchCubed = new UnitDouble(0.0000163871, 0, 3, 0, 0, 0, 0, 0);
+        public static UnitDouble footCubed = new UnitDouble(0.0283168, 0, 3, 0, 0, 0, 0, 0);
+        public static UnitDouble gallon = new UnitDouble(0.00378541, 0, 3, 0, 0, 0, 0, 0);
+        public static UnitDouble fluidOunce = new UnitDouble(0.0000295735, 0, 3, 0, 0, 0, 0, 0);
+
+
+        //charge
+        public static UnitDouble coulomb = new UnitDouble(1.0, 1, 0, 0, 1, 0, 0, 0);
 
         //EMF (voltage)
+        public static UnitDouble volt = new UnitDouble(1.0, -3, 2, 1, -1, 0, 0, 0);
+        public static UnitDouble millivolt = new UnitDouble(0.001, -3, 2, 1, -1, 0, 0, 0);
+        public static UnitDouble kilovolt = new UnitDouble(1000.0, -3, 2, 1, -1, 0, 0, 0);
 
         //velocity
+        public static UnitDouble meterPerSecond = new UnitDouble(1.0, -1, 1, 0, 0, 0, 0, 0);
+        public static UnitDouble millimeterPerSecond = new UnitDouble(0.001, -1, 1, 0, 0, 0, 0, 0);
+        public static UnitDouble kilometerPerSecond = new UnitDouble(1000.0, -1, 1, 0, 0, 0, 0, 0);
+        public static UnitDouble inchPerSecond = new UnitDouble(0.0254, -1, 1, 0, 0, 0, 0, 0);
+        public static UnitDouble footPerSecond = new UnitDouble(0.3048, -1, 1, 0, 0, 0, 0, 0);
+        public static UnitDouble kilometerPerHour = new UnitDouble(1/3.6, -1, 1, 0, 0, 0, 0, 0);
+        public static UnitDouble milePerHour = new UnitDouble(0.44704, -1, 1, 0, 0, 0, 0, 0);
 
         //acceleration
-
-
-        //STATIC METHODS
-        public static bool HasSameUnits(UnitDouble _a, UnitDouble _b)
-        {
-            return (
-                _a.TimeDimension == _b.TimeDimension &&
-                _a.LengthDimension == _b.LengthDimension &&
-                _a.MassDimension == _b.MassDimension &&
-                _a.CurrentDimension == _b.CurrentDimension &&
-                _a.TemperatureDimension == _b.TemperatureDimension &&
-                _a.MoleDimension == _b.MoleDimension &&
-                _a.IntensityDimension == _b.IntensityDimension
-                );
-        }
-
-        public static bool IsUnitless(UnitDouble _a)
-        {
-            return (
-                _a.TimeDimension == 0 &&
-                _a.LengthDimension == 0 &&
-                _a.MassDimension == 0 &&
-                _a.CurrentDimension == 0 &&
-                _a.TemperatureDimension == 0 &&
-                _a.MoleDimension == 0 &&
-                _a.IntensityDimension == 0
-                );
-        }
+        public static UnitDouble meterPerSecondSquared = new UnitDouble(1.0, -2, 1, 0, 0, 0, 0, 0);
+        public static UnitDouble inchPerSecondSquared = new UnitDouble(0.0254, -2, 1, 0, 0, 0, 0, 0);
+        public static UnitDouble footPerSecondSquared = new UnitDouble(0.3048, -2, 1, 0, 0, 0, 0, 0);
+        public static UnitDouble gAcceleration = new UnitDouble(9.80665, -2, 1, 0, 0, 0, 0, 0);
 
 
         //SUBCLASSES
@@ -512,9 +621,5 @@ namespace OCDMath.Units
             {
             }
         }
-
-
-        //UTILITIES
-        
     }
 }
