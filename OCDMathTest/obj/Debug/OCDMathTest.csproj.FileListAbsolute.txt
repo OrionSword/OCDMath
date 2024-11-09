@@ -8,3 +8,5 @@ C:\Users\Admin\Documents\Software\Projects\OCDMath\OCDMathTest\obj\Debug\OCDMath
 C:\Users\Admin\Documents\Software\Projects\OCDMath\OCDMathTest\obj\Debug\OCDMathTest.csproj.CopyComplete
 C:\Users\Admin\Documents\Software\Projects\OCDMath\OCDMathTest\obj\Debug\OCDMathTest.exe
 C:\Users\Admin\Documents\Software\Projects\OCDMath\OCDMathTest\obj\Debug\OCDMathTest.pdb
+C:\Users\orion\Documents\GitHub\OCDMath\OCDMathTest\obj\Debug\OCDMathTest.exe
+C:\Users\orion\Documents\GitHub\OCDMath\OCDMathTest\obj\Debug\OCDMathTest.pdb

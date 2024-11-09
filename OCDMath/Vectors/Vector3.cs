@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OCDMath.Vectors
 {
-    public struct Vector3<T>
+    /*public struct Vector3<T>
     {
         private const double equals_tolerance = 1e-9;
         private const double rad_to_deg = 1 / System.Math.PI * 180d;  //calculate this once to save performance doing this conversion over and over
@@ -321,5 +321,5 @@ namespace OCDMath.Vectors
             return radians * rad_to_deg; // i.e.  * 1 / System.Math.PI * 180d;
         }
 
-    }
+    }*/
 }
