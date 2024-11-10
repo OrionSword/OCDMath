@@ -605,6 +605,17 @@ namespace OCDMath.Units
         public static UnitDouble footPerSecondSquared = new UnitDouble(0.3048, -2, 1, 0, 0, 0, 0, 0);
         public static UnitDouble gAcceleration = new UnitDouble(9.80665, -2, 1, 0, 0, 0, 0, 0);
 
+        //angular velocity
+        public static UnitDouble radiansPerSecond = new UnitDouble(1.0, -1, 0, 0, 0, 0, 0, 0);
+        public static UnitDouble degreesPerSecond = new UnitDouble(System.Math.PI / 180.0, -1, 0, 0, 0, 0, 0, 0);
+        public static UnitDouble revolutionsPerSecond = new UnitDouble(System.Math.PI * 2, -1, 0, 0, 0, 0, 0, 0);
+        public static UnitDouble revolutionsPerMinute = new UnitDouble(System.Math.PI * 2 / 60.0, -1, 0, 0, 0, 0, 0, 0);
+
+        //angular acceleration
+        public static UnitDouble radiansPerSecondPerSecond = new UnitDouble(1.0, -2, 0, 0, 0, 0, 0, 0);
+        public static UnitDouble degreesPerSecondPerSecond = new UnitDouble(System.Math.PI / 180.0, -2, 0, 0, 0, 0, 0, 0);
+        public static UnitDouble revolutionsPerSecondPerSecond = new UnitDouble(System.Math.PI * 2, -2, 0, 0, 0, 0, 0, 0);
+        public static UnitDouble revolutionsPerMinutePerSecond = new UnitDouble(System.Math.PI * 2 / 60.0, -2, 0, 0, 0, 0, 0, 0);
 
         //SUBCLASSES
         public class UnitDimensionException : Exception
