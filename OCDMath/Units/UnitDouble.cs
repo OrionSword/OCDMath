@@ -606,16 +606,27 @@ namespace OCDMath.Units
         public static UnitDouble gAcceleration = new UnitDouble(9.80665, -2, 1, 0, 0, 0, 0, 0);
 
         //angular velocity
-        public static UnitDouble radiansPerSecond = new UnitDouble(1.0, -1, 0, 0, 0, 0, 0, 0);
-        public static UnitDouble degreesPerSecond = new UnitDouble(System.Math.PI / 180.0, -1, 0, 0, 0, 0, 0, 0);
-        public static UnitDouble revolutionsPerSecond = new UnitDouble(System.Math.PI * 2, -1, 0, 0, 0, 0, 0, 0);
-        public static UnitDouble revolutionsPerMinute = new UnitDouble(System.Math.PI * 2 / 60.0, -1, 0, 0, 0, 0, 0, 0);
+        public static UnitDouble radianPerSecond = new UnitDouble(1.0, -1, 0, 0, 0, 0, 0, 0);
+        public static UnitDouble degreePerSecond = new UnitDouble(System.Math.PI / 180.0, -1, 0, 0, 0, 0, 0, 0);
+        public static UnitDouble revolutionPerSecond = new UnitDouble(System.Math.PI * 2, -1, 0, 0, 0, 0, 0, 0);
+        public static UnitDouble revolutionPerMinute = new UnitDouble(System.Math.PI * 2 / 60.0, -1, 0, 0, 0, 0, 0, 0);
 
         //angular acceleration
-        public static UnitDouble radiansPerSecondPerSecond = new UnitDouble(1.0, -2, 0, 0, 0, 0, 0, 0);
-        public static UnitDouble degreesPerSecondPerSecond = new UnitDouble(System.Math.PI / 180.0, -2, 0, 0, 0, 0, 0, 0);
-        public static UnitDouble revolutionsPerSecondPerSecond = new UnitDouble(System.Math.PI * 2, -2, 0, 0, 0, 0, 0, 0);
-        public static UnitDouble revolutionsPerMinutePerSecond = new UnitDouble(System.Math.PI * 2 / 60.0, -2, 0, 0, 0, 0, 0, 0);
+        public static UnitDouble radianPerSecondPerSecond = new UnitDouble(1.0, -2, 0, 0, 0, 0, 0, 0);
+        public static UnitDouble degreePerSecondPerSecond = new UnitDouble(System.Math.PI / 180.0, -2, 0, 0, 0, 0, 0, 0);
+        public static UnitDouble revolutionPerSecondPerSecond = new UnitDouble(System.Math.PI * 2, -2, 0, 0, 0, 0, 0, 0);
+        public static UnitDouble revolutionPerMinutePerSecond = new UnitDouble(System.Math.PI * 2 / 60.0, -2, 0, 0, 0, 0, 0, 0);
+
+        //torque
+        public static UnitDouble newtonMeter = new UnitDouble(1.0, -2, 2, 1, 0, 0, 0, 0);
+        public static UnitDouble newtonCentimeter = new UnitDouble(0.1, -2, 2, 1, 0, 0, 0, 0);
+        public static UnitDouble newtonMillimeter = new UnitDouble(0.001, -2, 2, 1, 0, 0, 0, 0);
+        public static UnitDouble kilogramMeter = new UnitDouble(9.80665, -2, 2, 1, 0, 0, 0, 0);
+        public static UnitDouble kilogramCentimeter = new UnitDouble(0.0980665, -2, 2, 1, 0, 0, 0, 0);
+        public static UnitDouble kilogramMillimeter = new UnitDouble(0.00980665, -2, 2, 1, 0, 0, 0, 0);
+        public static UnitDouble footPound = new UnitDouble(1.35581795, -2, 2, 1, 0, 0, 0, 0);
+        public static UnitDouble inchPound = new UnitDouble(0.11298483, -2, 2, 1, 0, 0, 0, 0);
+        public static UnitDouble inchOunce = new UnitDouble(0.00706155, -2, 2, 1, 0, 0, 0, 0);
 
         //SUBCLASSES
         public class UnitDimensionException : Exception
