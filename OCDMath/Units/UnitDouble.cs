@@ -24,15 +24,20 @@ namespace OCDMath.Units
         public double InBaseUnits { get { return Value; } }
 
         public string DefaultUnitSuffix { get {
-                string value =
-                    ((TimeDimension != 0)        ?       TIME_SUFFIX        + "^" + TimeDimension.ToString()        : "") +
+                if (IsUnitless())
+                {
+                    return "ul";
+                }
+
+                return (
+                    ((TimeDimension != 0)        ? "*" + TIME_SUFFIX + "^" + TimeDimension.ToString()        : "") +
                     ((LengthDimension != 0)      ? "*" + LENGTH_SUFFIX      + "^" + LengthDimension.ToString()      : "") +
                     ((MassDimension != 0)        ? "*" + MASS_SUFFIX        + "^" + MassDimension.ToString()        : "") +
                     ((CurrentDimension != 0)     ? "*" + CURRENT_SUFFIX     + "^" + CurrentDimension.ToString()     : "") +
                     ((TemperatureDimension != 0) ? "*" + TEMPERATURE_SUFFIX + "^" + TemperatureDimension.ToString() : "") +
                     ((MoleDimension != 0)        ? "*" + MOLE_SUFFIX        + "^" + MoleDimension.ToString()        : "") +
-                    ((IntensityDimension != 0)   ? "*" + INTENSITY_SUFFIX   + "^" + IntensityDimension.ToString()   : "");
-                return (value.Substring(0, 1) == "*") ? value.Substring(1) : value;
+                    ((IntensityDimension != 0)   ? "*" + INTENSITY_SUFFIX   + "^" + IntensityDimension.ToString()   : "")
+                    ).Substring(1);
             } }
 
         public int TimeDimension        { get; private set; }
@@ -352,7 +357,7 @@ namespace OCDMath.Units
         // /
         public static UnitDouble operator /(UnitDouble _a, UnitDouble _b)
         {
-            return new UnitDouble(_a.Value * _b.Value,
+            return new UnitDouble(_a.Value / _b.Value,
                 _a.TimeDimension        - _b.TimeDimension       ,
                 _a.LengthDimension      - _b.LengthDimension     ,
                 _a.MassDimension        - _b.MassDimension       ,

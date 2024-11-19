@@ -60,6 +60,11 @@ namespace OCDMath.Units
             }
         }
 
+        public override string ToString()
+        {
+            return Min.ToString() + " - " + Max.ToString();
+        }
+
         public bool InRange(UnitDouble num)
         {
             return num >= _min && num <= _max;
@@ -70,7 +75,7 @@ namespace OCDMath.Units
             return num > _min && num < _max;
         }
 
-        public void ExpandRange(UnitDouble num)
+        private void ExpandRange(UnitDouble num)
         {
             if (InRangeExclusive(num))
             {
@@ -78,13 +83,13 @@ namespace OCDMath.Units
             }
             else
             {
-                if (num > _max)
+                if (num > Max)
                 {
-                    _max = num;
+                    Max = num;
                 }
-                else if (num < _min)
+                else if (num < Min)
                 {
-                    _min = num;
+                    Min = num;
                 }
             }
         }
